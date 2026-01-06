@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { expenseApi } from '../lib/api';
 
 interface Expense {
@@ -99,6 +100,12 @@ export default function ExpenseTable({ expenses, onDelete }: ExpenseTableProps) 
                   {expense.note || '—'}
                 </td>
                 <td className="px-6 py-4 text-sm flex justify-center gap-3">
+                  <Link
+                    href={`/edit-expense/${expense._id}`}
+                    className="text-blue-600 hover:text-blue-700 font-bold transition-colors hover:bg-blue-50 px-3 py-1 rounded-lg"
+                  >
+                    ✏️ Edit
+                  </Link>
                   <button
                     onClick={() => handleDelete(expense._id)}
                     className="text-red-600 hover:text-red-700 font-bold transition-colors hover:bg-red-50 px-3 py-1 rounded-lg"

@@ -19,18 +19,26 @@ export default function LoginPage() {
 
     try {
       const response = await authApi.login(email, password);
+      console.log('Login response:', response); // Debug log
 
       if (response.error) {
         setError(response.error);
+        setLoading(false);
         return;
       }
 
-      // Login successful, redirect to dashboard
-      router.push('/dashboard');
+      // Check if response has data (successful login)
+      if (response.data || !response.error) {
+        // Login successful, redirect to dashboard
+        console.log('Login successful, redirecting...'); // Debug log
+        router.push('/dashboard');
+      } else {
+        setError('Login failed. Please try again.');
+        setLoading(false);
+      }
     } catch (err) {
       setError('An unexpected error occurred');
-      console.error(err);
-    } finally {
+      console.error('Login error:', err);
       setLoading(false);
     }
   };

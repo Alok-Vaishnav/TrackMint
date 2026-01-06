@@ -20,18 +20,26 @@ export default function RegisterPage() {
 
     try {
       const response = await authApi.register(email, password);
+      console.log('Register response:', response); // Debug log
 
       if (response.error) {
         setError(response.error);
+        setLoading(false);
         return;
       }
 
-      // Registration successful, redirect to dashboard
-      router.push('/dashboard');
+      // Check if response has data (successful registration)
+      if (response.data || !response.error) {
+        // Registration successful, redirect to dashboard
+        console.log('Registration successful, redirecting...'); // Debug log
+        router.push('/dashboard');
+      } else {
+        setError('Registration failed. Please try again.');
+        setLoading(false);
+      }
     } catch (err) {
       setError('An unexpected error occurred');
-      console.error(err);
-    } finally {
+      console.error('Register error:', err);
       setLoading(false);
     }
   };
